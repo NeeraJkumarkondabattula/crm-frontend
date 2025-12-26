@@ -1,47 +1,41 @@
 import { useEffect, useState } from "react";
-import { fetchAgents } from "../api/user.api";
-import { reassignTicket } from "../api/ticket.api";
+import { fetchAgents, assignAgent } from "../api/user.api";
 
-const AssignAgent = ({ ticket, onAssigned }) => {
+export default function AssignAgent({ ticketId, onAssigned }) {
     const [agents, setAgents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [assigning, setAssigning] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const loadAgents = async () => {
-            const res = await fetchAgents();
-            setAgents(res.data);
-            setLoading(false);
-        };
-
-        loadAgents();
+        fetchAgents().then(setAgents).catch(() => { });
     }, []);
 
     const handleAssign = async (e) => {
         const agentId = e.target.value;
         if (!agentId) return;
 
-        setAssigning(true);
+        setLoading(true);
         try {
-            await reassignTicket(ticket._id, agentId);
+            await assignAgent(ticketId, agentId);
             onAssigned(agentId);
+        } catch {
+            alert("Failed to assign agent");
         } finally {
-            setAssigning(false);
+            setLoading(false);
         }
     };
 
-    if (loading) return null;
-
     return (
-        <select onChange={handleAssign} disabled={assigning}>
-            <option value="">Assign agent</option>
-            {agents.map((agent) => (
-                <option key={agent._id} value={agent._id}>
-                    {agent.name} ({agent.email})
-                </option>
-            ))}
-        </select>
-    );
-};
+        <div style={{ marginTop: 12 }}>
+            <label style={{ marginRight: 8 }}>Assign Agent:</label>
 
-export default AssignAgent;
+            <select onChange={handleAssign} disabled={loading}>
+                <option value="">Select agent</option>
+                {agents.map(a => (
+                    <option key={a._id} value={a._id}>
+                        {a.email}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+}

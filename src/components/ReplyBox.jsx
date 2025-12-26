@@ -1,40 +1,33 @@
 import { useState } from "react";
 import { replyToTicket } from "../api/email.api";
 
-const ReplyBox = ({ ticket, onMessageSent }) => {
+export default function ReplyBox({ ticketId, onSent }) {
     const [text, setText] = useState("");
     const [sending, setSending] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleSend = async () => {
-        console.log("🔥 Send clicked"); // DEBUG (must appear)
-
-        if (!text.trim()) return;
+    const send = async () => {
+        if (!text.trim() || sending) return;
 
         setSending(true);
+        setError("");
 
         try {
-            console.log("📤 Sending request");
-
-
-            const res = await replyToTicket({
-                ticketId: ticket._id,   // ✅ Mongo ObjectId
+            const message = await replyToTicket({
+                ticketId,
                 bodyText: text
             });
 
-
-            console.log("✅ Sent", res.data);
-
-            onMessageSent({
+            onSent({
                 direction: "outgoing",
                 bodyText: text,
-                from: "You",
-                to: ticket.customerEmail,
-                date: new Date().toISOString()
+                date: new Date().toISOString(),
+                from: "You"
             });
 
             setText("");
-        } catch (err) {
-            console.error("❌ Send failed", err);
+        } catch {
+            setError("Failed to send reply");
         } finally {
             setSending(false);
         }
@@ -43,29 +36,31 @@ const ReplyBox = ({ ticket, onMessageSent }) => {
     return (
         <div
             style={{
-                borderTop: "1px solid #ddd",
-                padding: 10,
+                borderTop: "1px solid #e5e7eb",
+                padding: 12,
                 display: "flex",
                 gap: 8
             }}
         >
             <textarea
-                rows={2}
-                placeholder="Type a reply…"
+                placeholder="Type your reply…"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                style={{ flex: 1 }}
+                rows={3}
+                style={{
+                    flex: 1,
+                    resize: "none",
+                    padding: 8
+                }}
             />
 
-            <button
-                type="button"     // 🔴 REQUIRED
-                onClick={handleSend}
-                disabled={sending}
-            >
+            <button onClick={send} disabled={sending}>
                 {sending ? "Sending…" : "Send"}
             </button>
+
+            {error && (
+                <div style={{ color: "red", fontSize: 12 }}>{error}</div>
+            )}
         </div>
     );
-};
-
-export default ReplyBox;
+}

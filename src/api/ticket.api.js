@@ -1,19 +1,12 @@
 import api from "./axios";
 
-export const fetchTickets = () => {
-    return api.get("/tickets");
+export const updateTicketStatus = async (ticketId, status) => {
+    const res = await api.patch(`/tickets/${ticketId}/status`, { status });
+    return res.data;
 };
 
-export const fetchTicketById = (id) => {
-    return api.get(`/tickets/${id}`);
+export const fetchTickets = async (params = {}) => {
+    const res = await api.get("/tickets", { params });
+    return res.data;
 };
 
-export const updateTicketStatus = (ticketId, status) => {
-    return api.patch(`/tickets/${ticketId}/status`, { status });
-};
-
-export const reassignTicket = (ticketId, newAgentId) => {
-    return api.patch(`/tickets/${ticketId}/reassign`, {
-        newAgentId
-    });
-};

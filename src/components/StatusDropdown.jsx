@@ -3,32 +3,49 @@ import { updateTicketStatus } from "../api/ticket.api";
 
 const STATUSES = ["open", "ongoing", "pending", "resolved", "escalated"];
 
-const StatusDropdown = ({ ticket, onStatusChange }) => {
+export default function StatusDropdown({ ticket, onChange }) {
     const [status, setStatus] = useState(ticket.status);
     const [saving, setSaving] = useState(false);
 
     const handleChange = async (e) => {
-        const newStatus = e.target.value;
-        setStatus(newStatus);
+        const next = e.target.value;
+        setStatus(next);
         setSaving(true);
 
         try {
-            await updateTicketStatus(ticket._id, newStatus);
-            onStatusChange(newStatus);
+            await updateTicketStatus(ticket._id, next);
+            onChange(next);
+        } catch {
+            setStatus(ticket.status); // rollback
+            alert("Failed to update status");
         } finally {
             setSaving(false);
         }
     };
 
     return (
-        <select value={status} onChange={handleChange} disabled={saving}>
-            {STATUSES.map((s) => (
-                <option key={s} value={s}>
-                    {s}
-                </option>
-            ))}
-        </select>
-    );
-};
+        <div style={{ marginTop: 8 }}>
+            <label style={{ fontSize: 13, marginRight: 8 }}>
+                Status:
+            </label>
 
-export default StatusDropdown;
+            <select
+                value={status}
+                onChange={handleChange}
+                disabled={saving}
+            >
+                {STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                        {s}
+                    </option>
+                ))}
+            </select>
+
+            {saving && (
+                <span style={{ fontSize: 12, marginLeft: 8 }}>
+                    Updating…
+                </span>
+            )}
+        </div>
+    );
+}
