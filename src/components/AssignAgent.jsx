@@ -25,17 +25,45 @@ export default function AssignAgent({ ticketId, onAssigned }) {
     };
 
     return (
-        <div style={{ marginTop: 12 }}>
-            <label style={{ marginRight: 8 }}>Assign Agent:</label>
+       <div
+  style={{
+    marginTop: 16,
+    padding: 12,
+    border: "1px solid #e5e7eb",
+    borderRadius: 10,
+    background: "#fafafa",
+    maxWidth: 360
+  }}
+>
+  <div style={{ fontSize: 13, marginBottom: 6 }}>
+    Reassign Agent
+  </div>
 
-            <select onChange={handleAssign} disabled={loading}>
-                <option value="">Select agent</option>
-                {agents.map(a => (
-                    <option key={a._id} value={a._id}>
-                        {a.email}
-                    </option>
-                ))}
-            </select>
-        </div>
+  <select
+    onChange={handleAssign}
+    disabled={loading}
+    style={{
+      width: "100%",
+      padding: 8,
+      borderRadius: 6,
+      border: "1px solid #d1d5db",
+      background: "#ffffff"
+    }}
+  >
+    <option value="">Select agent</option>
+    {agents.map(a => (
+      <option key={a._id} value={a._id}>
+        {a.email}
+      </option>
+    ))}
+  </select>
+
+  {loading && (
+    <div style={{ fontSize: 12, marginTop: 6 }}>
+      Assigning…
+    </div>
+  )}
+</div>
+
     );
 }

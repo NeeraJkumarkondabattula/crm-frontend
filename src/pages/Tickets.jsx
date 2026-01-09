@@ -24,7 +24,13 @@ export default function Tickets() {
     if (loading) return <div style={{ padding: 20 }}>Loading tickets…</div>;
 
     return (
-        <div style={{ padding: 20 }}>
+        <div
+            style={{
+                padding: 20,
+                height: "calc(100vh - 100px)",
+                overflowY: "auto"
+            }}
+        >
             {tickets.length === 0 && <div>No tickets match filters.</div>}
 
             {tickets.map((t) => (
@@ -33,19 +39,43 @@ export default function Tickets() {
                     onClick={() => navigate(`/tickets/${t._id}`)}
                     style={{
                         border: "1px solid #e5e7eb",
-                        borderRadius: 10,
-                        padding: 14,
-                        marginBottom: 10,
+                        borderRadius: 12,
+                        padding: 16,
+                        marginBottom: 12,
                         cursor: "pointer",
-                        background: "white"
+                        background: "#ffffff"
                     }}
                 >
-                    <div style={{ fontWeight: 600 }}>{t.subject || "(No subject)"}</div>
-                    <div style={{ fontSize: 13, color: "#555" }}>{t.customerEmail}</div>
-                    <div style={{ fontSize: 12, marginTop: 4 }}>
-                        Status: <strong>{t.status}</strong>
+                    <div style={{ fontWeight: 600, fontSize: 15 }}>
+                        {t.subject || "(No subject)"}
+                    </div>
+
+                    <div style={{ fontSize: 13, color: "#555", marginTop: 4 }}>
+                        {t.customerEmail}
+                    </div>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginTop: 8,
+                            fontSize: 12,
+                            color: "#111"
+                        }}
+                    >
+                        <span>
+                            Status: <strong>{t.status}</strong>
+                        </span>
+
+                        <span>
+                            Agent:{" "}
+                            <strong>
+                                {t.assignedAgent?.email || "Unassigned"}
+                            </strong>
+                        </span>
                     </div>
                 </div>
+
             ))}
         </div>
     );
