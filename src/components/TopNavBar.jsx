@@ -48,45 +48,45 @@ export default function TopNavBar({ stats }) {
                 </select>
 
                 <select
-  value={params.get("issueTag") || ""}
-  onChange={e => setParam("issueTag", e.target.value)}
->
-  <option value="">All Issues</option>
+                    value={params.get("issueTag") || ""}
+                    onChange={e => setParam("issueTag", e.target.value)}
+                >
+                    <option value="">All Issues</option>
 
-  {/* 🛒 Order & Delivery */}
-  <option value="order-status">Order Status</option>
-  <option value="order-not-received">Order Not Received</option>
-  <option value="delay-dispatch">Delay in Dispatch</option>
-  <option value="delivery-delay">Delivery Delay</option>
-  <option value="tracking-link">Tracking Link</option>
-  <option value="rto">RTO (Return to Origin)</option>
-  <option value="address-modification">Address Modification</option>
+                    {/* 🛒 Order & Delivery */}
+                    <option value="order-status">Order Status</option>
+                    <option value="order-not-received">Order Not Received</option>
+                    <option value="delay-dispatch">Delay in Dispatch</option>
+                    <option value="delivery-delay">Delivery Delay</option>
+                    <option value="tracking-link">Tracking Link</option>
+                    <option value="rto">RTO (Return to Origin)</option>
+                    <option value="address-modification">Address Modification</option>
 
-  {/* 💳 Payment & Checkout */}
-  <option value="payment-failed">Payment Failed</option>
-  <option value="shopify-cod-issue">Shopify COD Issue</option>
-  <option value="refund-request">Refund Request</option>
-  <option value="order-cancellation">Order Cancellation</option>
+                    {/* 💳 Payment & Checkout */}
+                    <option value="payment-failed">Payment Failed</option>
+                    <option value="shopify-cod-issue">Shopify COD Issue</option>
+                    <option value="refund-request">Refund Request</option>
+                    <option value="order-cancellation">Order Cancellation</option>
 
-  {/* 📦 Returns & Post Delivery */}
-  <option value="return-request">Return Request</option>
-  <option value="wrong-product">Wrong Product</option>
-  <option value="post-delivery-missing">Missing Product</option>
-  <option value="post-delivery-damaged">Damaged Product</option>
+                    {/* 📦 Returns & Post Delivery */}
+                    <option value="return-request">Return Request</option>
+                    <option value="wrong-product">Wrong Product</option>
+                    <option value="post-delivery-missing">Missing Product</option>
+                    <option value="post-delivery-damaged">Damaged Product</option>
 
-  {/* 🧴 Product & Health */}
-  <option value="skin-issues">Skin Issues</option>
-  <option value="fake-product">Fake Product</option>
+                    {/* 🧴 Product & Health */}
+                    <option value="skin-issues">Skin Issues</option>
+                    <option value="fake-product">Fake Product</option>
 
-  {/* 🚨 Trust & Fraud */}
-  <option value="fake-sellers">Fake Sellers</option>
+                    {/* 🚨 Trust & Fraud */}
+                    <option value="fake-sellers">Fake Sellers</option>
 
-  {/* 👤 Account */}
-  <option value="account-issue">Account Issue</option>
+                    {/* 👤 Account */}
+                    <option value="account-issue">Account Issue</option>
 
-  {/* 💬 Generic */}
-  <option value="general-query">General Query</option>
-</select>
+                    {/* 💬 Generic */}
+                    <option value="general-query">General Query</option>
+                </select>
 
 
 
